@@ -18,17 +18,17 @@ enum UseCase {
 }
 
 const TextStyle kAppbarTitle =
-    TextStyle(fontWeight: FontWeight.w700, fontSize: 32, color: KColors.black);
+    TextStyle(fontWeight: FontWeight.w700, fontSize: 24, color: KColors.black);
 const TextStyle kHeaderTextStyle =
-    TextStyle(fontWeight: FontWeight.w900, fontSize: 30, color: KColors.black);
+    TextStyle(fontWeight: FontWeight.w900, fontSize: 22, color: KColors.black);
 const TextStyle kLabelTextStyle =
-    TextStyle(fontWeight: FontWeight.w700, fontSize: 26, color: KColors.black);
+    TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: KColors.black);
 const TextStyle kContentTextStyle =
-    TextStyle(fontWeight: FontWeight.w900, fontSize: 28, color: KColors.black);
+    TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: KColors.black);
 const TextStyle kBtnTextStyle =
-TextStyle(fontWeight: FontWeight.w700, fontSize: 28, color: KColors.white);
+TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: KColors.white);
 const TextStyle kTagTextStyle =
-TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: KColors.white);
+TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: KColors.white);
 
 
 const SizedBox kBigH = SizedBox(

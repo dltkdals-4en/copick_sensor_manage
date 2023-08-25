@@ -3,6 +3,7 @@ import 'package:wifi_iot/wifi_iot.dart';
 import 'package:wifi_scan/wifi_scan.dart';
 
 class WifiProvider with ChangeNotifier {
+  bool findWifi = false;
   List<WiFiAccessPoint> wifiList = [];
   WiFiForIoTPlugin wiFiForIoTPlugin = WiFiForIoTPlugin();
 
@@ -11,13 +12,30 @@ class WifiProvider with ChangeNotifier {
   Future<void> startScan() async {
     await WiFiScan.instance.startScan().then((value) {
       print(value);
+
       notifyListeners();
     });
   }
 
   Future<void> getWifiList() async {
-    wifiList = await WiFiScan.instance.getScannedResults();
-    print(wifiList);
+    await WiFiScan.instance.getScannedResults().then((value) {
+      wifiList = value;
+      findWifi = true;
+      print('find Wifi ${wifiList.length}');
+      notifyListeners();
+    });
+
+    // await startScan().then((value) async {
+    //    // if(value == true){
+    //    //
+    //    // }
+    //  });
+  }
+
+  initWifi() {
+    wifiList.clear();
+    findWifi = false;
+    getWifiList();
     notifyListeners();
   }
 

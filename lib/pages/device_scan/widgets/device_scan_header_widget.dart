@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../../../providers/blue_provider.dart';
 
-class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+class DeviceScanHeaderWidget extends StatelessWidget {
+  const DeviceScanHeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class HeaderWidget extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(NORMALGAP),
-          child: Text('${list.length} 개의 기기를 찾았어요.'),
+          child: Text('${list.length} 개의 기기를 찾았어요.', style: kHeaderTextStyle.copyWith(),),
         ));
   }
 }

@@ -18,7 +18,7 @@ class SplashPage extends StatelessWidget {
       permission.checkBluetoothPermission();
       return LoadingScreen();
     } else {
-      return WifiConnectPage();
+      return DeviceScanPage();
     }
   }
 }

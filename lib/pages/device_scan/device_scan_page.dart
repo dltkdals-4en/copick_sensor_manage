@@ -1,5 +1,5 @@
 import 'package:copick_sensor_manage/pages/device_scan/widgets/device_list_widget.dart';
-import 'package:copick_sensor_manage/pages/device_scan/widgets/header_widget.dart';
+import 'package:copick_sensor_manage/pages/device_scan/widgets/device_scan_header_widget.dart';
 import 'package:copick_sensor_manage/providers/blue_provider.dart';
 import 'package:copick_sensor_manage/utils/colors.dart';
 import 'package:copick_sensor_manage/utils/constants.dart';
@@ -35,7 +35,7 @@ class DeviceScanPage extends StatelessWidget {
       body: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeaderWidget(),
+          DeviceScanHeaderWidget(),
           kBigH,
           DeviceListWidget(),
         ],
