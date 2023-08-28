@@ -1,4 +1,5 @@
 import 'package:copick_sensor_manage/providers/blue_provider.dart';
+import 'package:copick_sensor_manage/routes/routes/routes.dart';
 import 'package:copick_sensor_manage/utils/colors.dart';
 import 'package:copick_sensor_manage/utils/constants.dart';
 import 'package:copick_sensor_manage/utils/data_loading_screen.dart';
@@ -53,20 +54,42 @@ class FoundDeviceInfoWidget extends StatelessWidget {
         ],
       ),
       trailing: ElevatedButton(
-        child: Text(blue.setString(device)),
+        child: Text('기기 연동하기'),
         onPressed: () {
-          if (!device.isBonded) {}
-          showDialog(
-            context: context,
-            builder: (context) {
-              blue.bondDevice(device, index).then((value) {
-                Navigator.of(context).pop();
-              });
-              return DataLoadingScreen(
-                text: '기기 등록 중입니다.',
+          if(!blue.isConnected) {
+            if (!device.isBonded) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  blue.bondDevice(device, index).then((value) {
+                    Navigator.of(context).pop();
+                  });
+                  return DataLoadingScreen(
+                    text: '기기 등록 중입니다.',
+                  );
+                },
               );
-            },
-          );
+            } else if (device.isBonded) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  blue.connectBluetooth(device).then((value) {
+                    if (blue.isConnected) {
+                      Navigator.of(context).pop();
+                      Navigator.pushNamed(context, Routes.wifiConnect);
+                    } else {
+                      Navigator.of(context).pop();
+                    }
+                  });
+                  return DataLoadingScreen(
+                    text: '기기 연결 중입니다.',
+                  );
+                },
+              );
+            }
+          }else{
+            Navigator.pushNamed(context, Routes.wifiConnect);
+          }
         },
       ),
       tileColor: KColors.white,

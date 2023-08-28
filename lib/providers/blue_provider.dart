@@ -10,7 +10,7 @@ class BluetoothControlProvider with ChangeNotifier {
   List<BluetoothDiscoveryResult> deviceList =
       List<BluetoothDiscoveryResult>.empty(growable: true);
   StreamSubscription<BluetoothDiscoveryResult>? streamSubscription;
-
+  bool isConnected = true;
   findDevices() {
     if (streamSubscription == null) {
       streamSubscription =
@@ -83,5 +83,12 @@ class BluetoothControlProvider with ChangeNotifier {
         notifyListeners();
       });
     }
+  }
+
+  Future<void> connectBluetooth(BluetoothDevice device) async {
+    await BluetoothConnection.toAddress(device.address).then((value) {
+      isConnected = value.isConnected;
+      notifyListeners();
+    });
   }
 }

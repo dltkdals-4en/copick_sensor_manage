@@ -4,6 +4,7 @@
 import 'package:copick_sensor_manage/pages/bluetooth_connect/bluetooth_connect_page.dart';
 import 'package:copick_sensor_manage/pages/device_scan/device_scan_page.dart';
 import 'package:copick_sensor_manage/pages/pairing_device/pairing_device_page.dart';
+import 'package:copick_sensor_manage/pages/wifi_connect/wifi_connect_page.dart';
 import 'package:copick_sensor_manage/routes/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +38,10 @@ class RouteGenerator {
       case Routes.pairingDevice:
         return MaterialPageRoute(
           builder: (context) => PairingDevicePage(),
+        );
+      case Routes.wifiConnect:
+        return MaterialPageRoute(
+          builder: (context) => WifiConnectPage(),
         );
       default:
         return _errorRoute();
