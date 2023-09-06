@@ -5,6 +5,7 @@ class Routes {
   static const String root = '/root';
   static const String explainApp = '/explain_app';
   // static const String tab = '/tab';
+  static const String wifiScan = '/wifi_scan';
   static const String wifiConnect = '/wifi_connect';
   static const String bluetoothScan = '/bluetooth_scan';
   static const String pairingDevice = '/pairing_device';

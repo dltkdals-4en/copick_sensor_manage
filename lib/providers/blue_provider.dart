@@ -10,7 +10,10 @@ class BluetoothControlProvider with ChangeNotifier {
   List<BluetoothDiscoveryResult> deviceList =
       List<BluetoothDiscoveryResult>.empty(growable: true);
   StreamSubscription<BluetoothDiscoveryResult>? streamSubscription;
-  bool isConnected = true;
+  bool isBonded = false;
+  bool isConnected = false;
+  BluetoothDevice? selectedDevice;
+
   findDevices() {
     if (streamSubscription == null) {
       streamSubscription =
@@ -54,41 +57,73 @@ class BluetoothControlProvider with ChangeNotifier {
     }
   }
 
-  Future<void> bondDevice(BluetoothDevice device, int index) async {
-    print(device.isBonded);
-    if (device.isBonded) {
-      await FlutterBluetoothSerial.instance
-          .removeDeviceBondWithAddress(device.address)
-          .then((value) {
-        deviceList[index] = BluetoothDiscoveryResult(
-            device: BluetoothDevice(
-              name: device.name,
-              address: device.address,
-              bondState: BluetoothBondState.none,
-            ),
-            rssi: deviceList[index].rssi);
-        notifyListeners();
-      });
-    } else {
+  void checkBonded(BluetoothDevice device) {
+    isBonded = device.isBonded;
+    notifyListeners();
+  }
+
+  Future<bool> bondDevice(BluetoothDevice device, int index) async {
+    print('before ${isBonded}');
+    if (!isBonded) {
       await FlutterBluetoothSerial.instance
           .bondDeviceAtAddress(device.address)
           .then((value) {
-        deviceList[index] = BluetoothDiscoveryResult(
-            device: BluetoothDevice(
-              name: device.name,
-              address: device.address,
-              bondState: BluetoothBondState.bonded,
-            ),
-            rssi: deviceList[index].rssi);
-        notifyListeners();
+        print('value $value');
+        if (value == true) {
+          selectedDevice = device;
+          deviceList[index] = BluetoothDiscoveryResult(
+              device: BluetoothDevice(
+                name: device.name,
+                address: device.address,
+                bondState: BluetoothBondState.bonded,
+              ),
+              rssi: deviceList[index].rssi);
+          isBonded = true;
+          notifyListeners();
+        }
       });
     }
+    print('after ${isBonded}');
+    return isBonded;
+    // print('isBonded: ${device.isBonded}');
+    // await FlutterBluetoothSerial.instance
+    //     .bondDeviceAtAddress(device.address)
+    //     .then((value) {
+    //   print('value $value');
+    //   if(value ==true ) {
+    //     selectedDevice = device;
+    //     deviceList[index] = BluetoothDiscoveryResult(
+    //         device: BluetoothDevice(
+    //           name: device.name,
+    //           address: device.address,
+    //           bondState: BluetoothBondState.bonded,
+    //         ),
+    //         rssi: deviceList[index].rssi);
+    //     notifyListeners();
+    //   }
+    // });
   }
 
   Future<void> connectBluetooth(BluetoothDevice device) async {
     await BluetoothConnection.toAddress(device.address).then((value) {
       isConnected = value.isConnected;
+      connection = value;
+      selectedDevice = device;
       notifyListeners();
     });
+  }
+
+  Future<void> disconnectBluetooth() async {
+    await connection!.close().then((value) {
+      initAll();
+      notifyListeners();
+    });
+  }
+
+  initAll() {
+    connection = null;
+    selectedDevice = null;
+    isBonded = false;
+    isConnected = false;
   }
 }
